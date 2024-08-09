@@ -1,0 +1,1 @@
+C:\Users\wojmed\source\repos\pdf-edit-and-merge\PDF-Edit-And-Merge\PDF-Edit-And-Merge.csproj;x64
