@@ -21,9 +21,10 @@ namespace PDF_Edit_And_Merge.Model
             _fileResult = file;
             Name = file.FileName;
             Path = file.FullPath;
-            _pdfDocument = PdfReader.Open(Path);
+            _pdfDocument = PdfReader.Open(Path, PdfDocumentOpenMode.Import);
             ContentType = file.ContentType;
             Pages = _pdfDocument.Pages.Count;
         }
+        public PdfDocument GetPdfDocument { get { return _pdfDocument; } }
     }
 }
