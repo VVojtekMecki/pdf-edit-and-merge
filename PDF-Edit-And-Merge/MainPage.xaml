@@ -15,8 +15,8 @@
                       ColumnDefinitions="100, *"
                       Grid.Row="1">
                     <Button x:Name="FilePicker"
-                            Text="Add a file"
-                            Command="{Binding AddPdfFileCommand}"
+                            Text="Add files"
+                            Command="{Binding AddPdfFilesCommand}"
                             WidthRequest="100" />
                 </Grid>
 
@@ -37,7 +37,8 @@
                     </Grid>
                     <BoxView Grid.Row="1" />
                     <CollectionView x:Name="FileListCollectionView"
-                                    ItemsSource="{Binding FileList}" Grid.Row="2">
+                                    ItemsSource="{Binding FileList}"
+                                    Grid.Row="2">
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="{x:Type model:FileItem}">
                                 <Grid RowDefinitions="60, 1">
@@ -46,7 +47,7 @@
                                                Grid.Column="1" />
                                         <Label Text="{Binding Path}"
                                                Grid.Column="2" />
-                                        <Label Text="Pages"
+                                        <Label Text="{Binding Pages}"
                                                Grid.Column="3" />
                                     </Grid>
                                     <BoxView Grid.Row="1" />
@@ -63,11 +64,16 @@
                       ColumnDefinitions="120, .4*, .6*, 120">
                     <Button Text="Merge pdf"
                             WidthRequest="100" />
-                    <Grid RowDefinitions=".5*, .5*"
+                    <Grid ColumnDefinitions=".5*, .5*"
                           Grid.Column="2">
                         <Label Text="Export pages:"
-                               HorizontalOptions="Center"
+                               HorizontalOptions="End"
                                VerticalOptions="Center" />
+                        <Label Text="{Binding PagesCount}"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Center"
+                               Grid.Column="1" 
+                               Margin="10, 0, 0, 0"/>
                     </Grid>
                     <Button Text="Clear all"
                             WidthRequest="100"

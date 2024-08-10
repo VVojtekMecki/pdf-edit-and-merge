@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Mime;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Storage;
 using PDF_Edit_And_Merge.Model;
+using PdfSharp.Pdf.IO;
 
 namespace PDF_Edit_And_Merge.ViewModel
 {
@@ -14,43 +18,50 @@ namespace PDF_Edit_And_Merge.ViewModel
     {
         [ObservableProperty]
         ObservableCollection<FileItem> fileList;
-        public MainPageViewModel() 
+        [ObservableProperty]
+        double pagesCount = 0;
+        public MainPageViewModel()
         {
             FileList = [];
         }
         [RelayCommand]
-        public async Task AddPdfFile()
+        public async Task AddPdfFiles()
         {
-            var fileResult = await PickAndShow(new PickOptions());
-            if (fileResult != null)
+
+            var fileResults = await PickPdfFilesFromSystem();
+            foreach (var file in fileResults)
             {
-                FileList.Add(new FileItem(fileResult));
+                AddPdfFile(file);
             }
         }
 
-        private async Task<FileResult?> PickAndShow(PickOptions options)
+        private void AddPdfFile(FileResult? file)
         {
+            if (file != null)
+            {
+                if (file.ContentType == "application/pdf")
+                {
+                    FileList.Add(new FileItem(file));
+                    PagesCount = FileList.Select(f => f.Pages).Sum();
+                }
+            }
+        }
+
+        private async Task<IEnumerable<FileResult?>> PickPdfFilesFromSystem()
+        {
+
             try
             {
-                var result = await FilePicker.Default.PickAsync(options);
-                if (result != null)
+                var pickerOptions = new PickOptions
                 {
-                    if (result.FileName.EndsWith("jpg", StringComparison.OrdinalIgnoreCase) ||
-                        result.FileName.EndsWith("png", StringComparison.OrdinalIgnoreCase))
-                    {
-                        using var stream = await result.OpenReadAsync();
-                        var image = ImageSource.FromStream(() => stream);
-                    }
-                }
-
-                return result;
+                    FileTypes = FilePickerFileType.Pdf
+                };
+                return await FilePicker.Default.PickMultipleAsync(pickerOptions);
             }
             catch (Exception ex)
             {
-                // The user canceled or something went wrong
+                return [];
             }
-
-            return null;
         }
     }
 }

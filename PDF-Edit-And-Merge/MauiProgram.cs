@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using PDF_Edit_And_Merge.ViewModel;
+using PdfSharp.Pdf.IO;
 
 namespace PDF_Edit_And_Merge
 {
@@ -17,7 +18,6 @@ namespace PDF_Edit_And_Merge
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
 
