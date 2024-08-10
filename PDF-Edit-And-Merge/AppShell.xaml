@@ -8,7 +8,6 @@
     Title="PDF_Edit_And_Merge">
 
     <ShellContent
-        Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

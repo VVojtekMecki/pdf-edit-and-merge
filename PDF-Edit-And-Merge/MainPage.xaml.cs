@@ -1,13 +1,18 @@
-﻿namespace PDF_Edit_And_Merge
+﻿using PDF_Edit_And_Merge.ViewModel;
+
+namespace PDF_Edit_And_Merge
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private readonly MainPageViewModel viewModel;
 
-        public MainPage()
+        public MainPage(MainPageViewModel vm)
         {
             InitializeComponent();
+            viewModel = vm;
+            BindingContext = vm;
         }
+
     }
 
 }
