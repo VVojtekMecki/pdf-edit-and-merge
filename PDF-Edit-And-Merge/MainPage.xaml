@@ -7,25 +7,72 @@
              x:DataType="viewModel:MainPageViewModel">
 
     <ScrollView>
-        <VerticalStackLayout Padding="30,0"
-                             Spacing="25">
-            <Grid RowDefinitions="50, *"
-                  Margin="0, 100">
-                <Button x:Name="FilePicker"
-                        Text="Add a file"
-                        Command="{Binding AddPdfFileCommand}"
-                        WidthRequest="100"/>
+        <VerticalStackLayout>
+            <Grid x:Name="ContentGrid"
+                  Grid.Row="1">
+                <Label Text="PDF Merge" />
+                <Grid x:Name="UpperElementsGrid"
+                      ColumnDefinitions="100, *"
+                      Grid.Row="1">
+                    <Button x:Name="FilePicker"
+                            Text="Add a file"
+                            Command="{Binding AddPdfFileCommand}"
+                            WidthRequest="100" />
+                </Grid>
 
-                <ListView x:Name="FileList"
-                    ItemsSource="{Binding FileList}"
-                          Grid.Row="1">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="{x:Type model:FileItem}">
-                            <!--<TextCell Text="{Binding Source={RelativeSource AncestorType={x:Type model:FileItem}}, Path=Name}"/>-->
-                            <TextCell Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <Grid x:Name="FileListCollectionGrid"
+                      Grid.Row="2"
+                      RowDefinitions="50, 1, *">
+                    <Grid ColumnDefinitions="50, .3*, .3*, .2*, .1*, .1*">
+                        <Label Text="Name"
+                               Grid.Column="1" />
+                        <Label Text="Folder"
+                               Grid.Column="2" />
+                        <Label Text="Pages"
+                               Grid.Column="3" />
+                        <Label Text="Edit"
+                               Grid.Column="4" />
+                        <Label Text="Delete"
+                               Grid.Column="5" />
+                    </Grid>
+                    <BoxView Grid.Row="1" />
+                    <CollectionView x:Name="FileListCollectionView"
+                                    ItemsSource="{Binding FileList}" Grid.Row="2">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type model:FileItem}">
+                                <Grid RowDefinitions="60, 1">
+                                    <Grid ColumnDefinitions="50, .3*, .3*, .2*, .2*">
+                                        <Label Text="{Binding Name}"
+                                               Grid.Column="1" />
+                                        <Label Text="{Binding Path}"
+                                               Grid.Column="2" />
+                                        <Label Text="Pages"
+                                               Grid.Column="3" />
+                                    </Grid>
+                                    <BoxView Grid.Row="1" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </Grid>
+
+                <Grid x:Name="BottomElementsGrid"
+                      Grid.Row="3"
+                      HeightRequest="50"
+                      ColumnDefinitions="120, .4*, .6*, 120">
+                    <Button Text="Merge pdf"
+                            WidthRequest="100" />
+                    <Grid RowDefinitions=".5*, .5*"
+                          Grid.Column="2">
+                        <Label Text="Export pages:"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Grid>
+                    <Button Text="Clear all"
+                            WidthRequest="100"
+                            Grid.Column="3" />
+                </Grid>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
